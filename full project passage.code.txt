@@ -1,0 +1,102 @@
+full project passage
+
+In our project we have built our data pipeline in AWS Cloud
+
+We are using multiple aws services like s3,emr,ec2,step function,open search
+
+In our data pipeline -- we have 3 sources
+
+1) s3
+2) snowflake
+3) webapi
+
+We totally have 4 pyspark jobs running for which use 4 pyspark jobs for extraction and do minimal transformations and one master pyspark job for writing the data to target
+
+Our target system is s3 as well as elastic search
+
+As a part of 3 extraction jobs we read data from all the 3 source and do necessary transformation using Pyspark dsl - we perform transformations like filters,aggregations,expressions,function,flattening the complex data and write the intermediate results to the aws s3 locations
+
+Once the data written to the intermediate location -- we have a down stream team consume those intermediate data for their transformation
+
+However we also have one master pyspark job which would consume all these intermediate data and perform all the necessary transformations as per the business requirement and write the final data to aws s3 and elastic search
+
+We have another down stream team who would consume this s3 and elastic search data for their transformations
+
+
+To automate the entire orchestration - to create the cluster to execute pyspark jobs and to terminate the cluster we have step functions 
+
+We developed our own step function code which take care of entire orchestrations
+
+We also use Event bridge to schedule the step functions
+
+Our job run every day morning 8am Easter time
+
+===========================================================
+ ===== follow up answers====================
+
+
+
+
+In this whole process we use parquet file format ( columnar storage)
+
+We use 28 nodes r5.xlarge cluster type in my EMR for entire process but that instance type is memory optimization
+
+For snowflake password -- we do not hard code password -- we configure that password in Secret Manager and fetch it
+
+The entire data pipeline runs for close to 5-6 Hours
+
+
+s3 --- 4 tb data
+snowflake -- 1-2 tb data
+webapi --  1GB
+
+
+We perform any transformations job usually take 6-7 Hours
+
+But we also face many performance issues for which we have tuned a lot optimization improvement
+
+
+Proper memory optimization
+Proper salting techniques
+Dynamic resource allocations
+broadcast joins
+
+
+Yes we faced some production issues.
+
+As we use snowflake -- there was production issue for which the snowflake take schema/columns changed without any notice
+
+Our production was down - so validated it then changed our code accordingly and made it work
+
+
+Yes we faced some of the other production issues also like memory issues. for which we tuned the executor core and memory properly
+
+
+Yes  I have also improved production time recently by implementing left anti join instead of list filtering which reduced almost 1 hour of time
+
+
+
+
+We follow agile methodology for we have 2 weeks as sprint
+
+My scrum master assign stories for entire team and we have to progress it
+
+Like creating job // enhancing job // enhancing the perform
+
+We have scrum call every day evening 6pm IST
+
+
+Yes we maintain a code repository -- GIT HUB 
+
+ONCE WE DEVELOP AND TESTED THE CODE IN THE DEV ENVIRONMENT
+
+WE COMMIT THE CODE TO GIT HUB AND WE RAISE PULL REQUEST AND GET APPROVED FROM MY TEAM
+
+THEN WE RUN THE GIT HUB ACTIONS (WHICH WAS DEVELOPED BY DEVOPS TEAM)
+
+which enables the code in the production environment
+
+
+We also planning to implement unit testing but still in progress
+
+==================================END=============================

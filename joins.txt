@@ -1,0 +1,28 @@
+
+
+
+rdd1 = spark.sparkContext.parallelize([
+    (1, 'raj'),
+    (2, 'ravi'),
+    (3, 'sai'),
+    (5, 'rani')
+],1)
+
+rdd2 = spark.sparkContext.parallelize([
+    (1, 'mouse'),
+    (3, 'mobile'),
+    (7, 'laptop')
+],1)
+
+
+
+
+
+# Convert RDDs to DataFrames using toDF()
+# Define schema for the DataFrames
+df1 = rdd1.toDF(['id', 'name']).coalesce(1)
+df2 = rdd2.toDF(['id', 'product']).coalesce(1)
+
+# Show the DataFrames
+df1.show()
+df2.show()

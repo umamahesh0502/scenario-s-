@@ -1,0 +1,15 @@
+rocdf = (
+    csvdf.selectExpr(
+
+        "cast(txnno as int) as txnno",
+        "split(txndate,'-')[2] as year",
+        "amount+100  as amount",
+        "upper(category)      as category",
+        "lower(product) as product",
+        "spendby",
+        # "case"
+        "concat(category,'~','zeyo')as con"
+
+    )
+)
+procdf.show()

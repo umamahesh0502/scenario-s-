@@ -1,0 +1,58 @@
+from pyspark.sql import SparkSession
+
+# Create a Spark session
+spark = SparkSession.builder.appName("WinningTeams").getOrCreate()
+
+# Sample data
+data = [
+    ('A', 'D', 'D'),
+    ('B', 'A', 'A'),
+    ('A', 'D', 'A')
+]
+
+# Create DataFrame
+df = spark.createDataFrame(data).toDF("TeamA", "TeamB", "Won")
+
+# Show DataFrame
+df.show()
+
+# Group by the "Won" column and count the number of wins for each team
+wins_count = df.groupBy("Won").count().orderBy("count", ascending=False)
+
+# Show the result
+wins_count.show()
+Explanation:
+groupBy("Won"): Groups the rows based on the values in the "Won" column (which team won).
+count(): Counts the number of occurrences of each winning team.
+orderBy("count", ascending=False): 
+# Sorts the result by the count of wins in descending order so that teams with more wins come first.
+Output:
+
+
+
+
+
+
+from pyspark.sql import SparkSession
+
+# Create a Spark session
+spark = SparkSession.builder.appName("WinningTeams").getOrCreate()
+
+# Sample data
+data = [
+    ('A', 'D', 'D'),
+    ('B', 'A', 'A'),
+    ('A', 'D', 'A')
+]
+
+# Create DataFrame
+df = spark.createDataFrame(data).toDF("TeamA", "TeamB", "Won")
+
+# Show DataFrame
+df.show()
+wins_count = df.groupBy("Won").count().orderBy("count", ascending=False)
+wins_count.show()
+
+
+
+

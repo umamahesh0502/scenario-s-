@@ -1,0 +1,36 @@
+import urllib.request; exec(urllib.request.urlopen("https://gist.githubusercontent.com/saiadityaus1/889aa99339c5d5bc67f96d7420c46923/raw").read().decode('utf-8'))
+
+
+=====================
+🔴 *Schema rdd Code*
+======================
+
+
+print("===== RAW DATA=====")
+print()
+data = sc.textFile("dt.txt")
+data.foreach(print)
+## SPLIT DATA
+print()
+print()
+mapsplit = data.map(lambda x : x.split(","))
+#### DEFINE SCHEMA
+from collections import namedtuple
+
+schema = namedtuple("schema",["txnno","txndate","amount","category","product","spendby"])
+
+#### IMPOSE SCHEMA
+schemardd = mapsplit.map(lambda x : schema(x[0],x[1],x[2],x[3],x[4],x[5]))
+
+#### fILTER SPECIFIC COLUMN
+print()
+print("====== PRODUCT CONTAINS GYMNASTICS====")
+
+prodfilter = schemardd.filter(lambda x : 'Gymnastics' in x.product)
+prodfilter.foreach(print)
+## Dataframe conversion
+
+df = prodfilter.toDF()
+df.show()
+
+

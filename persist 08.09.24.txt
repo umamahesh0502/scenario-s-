@@ -1,0 +1,13 @@
+df = spark.read.format(csv)
+
+filterdf = df.filter("category='Exercise'")
+
+filterdf.persist()
+
+procdf1 = filterdf.withColumn("txndate",expr(""))
+
+procdf1.write.parquet("")
+
+procdf2 = filterdf.withColumn("category",expr(""))
+
+procdf2.write.parquet("")

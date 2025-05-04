@@ -1,0 +1,68 @@
+class Employee:
+    PERFORMANCE_MAP = {5: "Excellent", 4: "Good", 3: "Average", 2: "Below Average", 1: "Poor"}
+
+    def __init__(self, name, age, salary, experience, post, qualification, joining_year, place, performance_rating):
+        self.name = name
+        self.age = age
+        self.salary = salary
+        self.experience = experience
+        self.post = post
+        self.qualification = qualification
+        self.joining_year = joining_year
+        self.place = place
+        self.performance_rating = performance_rating  # Rating between 1 and 5
+
+    @property
+    def performance_description(self):
+        return self.PERFORMANCE_MAP.get(self.performance_rating, "Unknown")
+
+    @property
+    def working_rate(self):
+        """
+        Working rate based on performance:
+        - Excellent (5): 100%
+        - Good (4): 90%
+        - Average (3): 75%
+        - Below Average (2): 60%
+        - Poor (1): 50%
+        """
+        rates = {5: 100, 4: 90, 3: 75, 2: 60, 1: 50}
+        return rates.get(self.performance_rating, 0)
+
+    def display_details(self):
+        return (f"Name: {self.name}, Age: {self.age}, Salary: ${self.salary}, "
+                f"Experience: {self.experience} years, Post: {self.post}, "
+                f"Qualification: {self.qualification}, Joining Year: {self.joining_year}, "
+                f"Place: {self.place}, Performance: {self.performance_rating}/5 - {self.performance_description}, "
+                f"Working Rate: {self.working_rate}%")
+
+# List of 10 employees
+employees = [
+    Employee("John Doe", 35, 85000, 10, "Manager", "MBA", 2014, "New York", 4),
+    Employee("Alice Smith", 32, 78000, 10, "Senior Engineer", "B.Tech", 2014, "Los Angeles", 5),
+    Employee("Bob Johnson", 37, 95000, 10, "Director", "MBA", 2014, "Chicago", 3),
+    Employee("Clara White", 30, 65000, 10, "Team Lead", "M.Sc", 2014, "San Francisco", 2),
+    Employee("Derek Green", 36, 87000, 10, "Project Manager", "M.Tech", 2014, "Boston", 5),
+    Employee("Emma Brown", 33, 72000, 10, "HR Specialist", "BBA", 2014, "Miami", 3),
+    Employee("Frank Davis", 38, 90000, 10, "Senior Consultant", "MBA", 2014, "Dallas", 4),
+    Employee("Grace Lee", 34, 76000, 10, "Product Manager", "MCA", 2014, "Seattle", 5),
+    Employee("Henry Moore", 31, 70000, 10, "Data Analyst", "B.Sc", 2014, "Atlanta", 2),
+    Employee("Isabella Scott", 29, 62000, 10, "Software Developer", "B.Tech", 2014, "Houston", 3),
+]
+
+# Display all employee details
+print("Employee Details:\n")
+for employee in employees:
+    print(employee.display_details())
+
+# Find the highest working rate
+highest_working_rate = max(employees, key=lambda e: e.working_rate)
+print(f"\nHighest Working Rate Employee:\n{highest_working_rate.display_details()}")
+
+# Find the highest-paid employee
+highest_paid = max(employees, key=lambda e: e.salary)
+print(f"\nHighest Paid Employee:\n{highest_paid.display_details()}")
+
+# Find the employee with the most experience (all have equal experience here)
+most_experienced = max(employees, key=lambda e: e.experience)
+print(f"\nMost Experienced Employee:\n{most_experienced.display_details()}")

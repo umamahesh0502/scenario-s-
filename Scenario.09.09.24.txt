@@ -1,0 +1,20 @@
+data = [
+    ('A', 'D', 'D'),
+    ('B', 'A', 'A'),
+    ('A', 'D', 'A')
+]
+df = spark.createDataFrame(data).toDF("TeamA", "TeamB", "Won")
+df.show()
+teamdf= (df.selectExpr("TeamA").union(df.select("TeamB"))
+         .distinct()
+        .withColumnRenamed("TeamA","TeamName")
+        .withColumnRenamed("TeamB","TeamName"))
+teamdf.show()
+wondf=df.groupby("Won").count()
+wondf.show()
+
+finaldf=(teamdf.join(wondf,teamdf.TeamName == wondf.Won,"left")
+         .drop("Won")
+         .withColumnRenamed("count","Won")
+         .orderBy("TeamName").na.fill(0))
+finaldf.show()

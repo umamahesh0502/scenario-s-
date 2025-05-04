@@ -1,0 +1,20 @@
+
+csvdf = spark.read.format("csv").option("header","true").load("prod.csv")
+
+csvdf.show()
+
+csvdf.createOrReplaceTempView("liya")
+
+procdf = spark.sql("select * from liya where id > 1")
+
+procdf.show()
+
+jsondf = spark.read.format("json").load("file4.json")
+
+jsondf.show()
+
+
+parquetdf = spark.read.load("file5.parquet")
+
+
+parquetdf.show()

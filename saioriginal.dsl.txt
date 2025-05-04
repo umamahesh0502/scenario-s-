@@ -1,0 +1,143 @@
+ csvdf = spark.read.format("csv").load("dt.txt").toDF("txnno","txndate","amount","category","product","spendby")
+
+csvdf.show()
+
+
+
+seldf=csvdf.select("txndate","product")
+
+seldf.show()
+
+drop functionality
+
+
+dropdf=csvdf.drop("txndate","product")
+dropdf.show()
+
+filter
+print()
+print(++++ category = 'EXCERSISE'+++++++++++    )
+
+onefil=csvdf.filter("  category='Excercise'")
+onefil.show()
+
+print()
+print("====== CATEGORY = 'EXERCISE' =======")
+print()
+
+
+onefil = csvdf.filter("     category='Exercise'        ")
+
+onefil.show()
+
+
+
+print()
+print("====== CATEGORY = 'EXERCISE' and spendby  = cash =======")
+print()
+
+
+mulfilter = csvdf.filter("     category='Exercise'  and spendby ='cash'      ")
+
+mulfilter.show()
+
+
+print()
+print("====== CATEGORY = 'EXERCISE' or spendby  = cash =======")
+print()
+
+mulfilteror = csvdf.filter( " category='Exercise'  or spendby ='cash'      ")
+
+mulfilteror.show()
+
+
+
+print()
+print("====== CATEGORY = 'EXERCISE' ,  'Gymnastics' =======")
+print()
+
+
+infil = csvdf.filter("     category  in ( 'Exercise' ,  'Gymnastics')       ")
+
+infil.show()
+
+
+
+csvdf = spark.read.format("csv").load("dt.txt").toDF("txnno","txndate","amount","category","product","spendby")
+
+csvdf.show()
+
+print()
+print("====== CATEGORY = 'EXERCISE' =======")
+print()
+
+
+onefil = csvdf.filter("     category='Exercise'        ")
+
+onefil.show()
+
+
+
+print()
+print("====== CATEGORY = 'EXERCISE' and spendby  = cash =======")
+print()
+
+
+mulfilter = csvdf.filter("     category='Exercise'  and spendby ='cash'      ")
+
+mulfilter.show()
+
+
+print()
+print("====== CATEGORY = 'EXERCISE' or spendby  = cash =======")
+print()
+
+mulfilteror = csvdf.filter( " category='Exercise'  or spendby ='cash'      ")
+
+mulfilteror.show()
+
+
+
+print()
+print("====== CATEGORY = 'EXERCISE' ,  'Gymnastics' =======")
+print()
+
+
+infil = csvdf.filter("     category  in ( 'Exercise' ,  'Gymnastics')       ")
+
+infil.show()
+
+
+print()
+print("====== Product Contains (Like) Gymnastics =======")
+print()
+
+
+likefil = csvdf.filter("      product  like   '%Gymnastics%'         ")
+
+likefil.show()
+
+
+print()
+print("====== Product Is Null =======")
+print()
+
+nullfilter = csvdf.filter("   product  is null  ")
+
+nullfilter.show()
+
+
+print()
+print("====== Product Is  not Null =======")
+print()
+
+
+notnullfilter = csvdf.filter(" product is not null    ")
+
+notnullfilter.show()
+
+
+
+onefil = csvdf.filter(" category='Exercise' ").drop("product").select("txnno","txndate")
+
+onefil.show()

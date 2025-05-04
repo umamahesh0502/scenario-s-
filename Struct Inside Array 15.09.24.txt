@@ -1,0 +1,60 @@
+Struct Inside Array
+
+
+
+data= """
+
+{
+    "id": 2,
+    "trainer": "Sai",
+    "zeyoStudents": [
+        {
+            "user": {
+                "name": "Ajay",
+                "age": 21
+            }
+        },
+        {
+            "user": {
+                "name": "Rani",
+                "age": 24
+            }
+        }
+    ]
+}
+
+"""
+df = spark.read.json(sc.parallelize([data],1))
+df.show()
+df.printSchema()
+
+
+
+flatten1 = df.selectExpr(
+
+                    "id",
+                    "trainer",
+                    "explode(zeyoStudents) as zeyoStudents"
+)
+
+flatten1.show()
+
+flatten1.printSchema()
+
+
+
+
+flatten2 = flatten1.selectExpr(
+
+                            "id",
+                            "trainer",
+                            "zeyoStudents.user.age",
+                            "zeyoStudents.user.name"
+
+
+
+)
+
+flatten2.show()
+
+flatten2.printSchema()

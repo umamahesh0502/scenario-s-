@@ -1,0 +1,93 @@
+class Salary:
+    def __init__(self, pay, bonus):
+        self.pay = pay
+        self.bonus = bonus
+
+    def annual_salary(self):
+        return (self.pay * 12) + self.bonus
+
+    def monthly_salary(self):
+        return self.pay
+
+
+class BankStatement:
+    def __init__(self, employee):
+        self.employee = employee
+        self.account_number = f"AC{self.employee.name[:2].upper()}{self.employee.age}{self.employee.experience * 10}"  # Example account number format
+        self.deposits = []
+
+    def generate_statement(self):
+        # Assume monthly deposits are the monthly salary
+        for month in range(1, 13):
+            self.deposits.append(self.employee.obj_Salary.monthly_salary())
+
+        # Generate bank statement
+        print(f"\nBank Statement for {self.employee.name} (Account: {self.account_number})")
+        print(
+            f"Employee: {self.employee.name}, Experience: {self.employee.experience} years, Started in {self.employee.start_year} at {self.employee.place}")
+        print(
+            f"Performance Rating: {self.employee.performance_rating}/5 - {self.employee.performance_description}")  # Display performance rating and description
+        print("Deposits per month:")
+        for month, deposit in enumerate(self.deposits, 1):
+            print(f"Month {month}: ${deposit}")
+        print(f"Total Annual Deposit: ${self.employee.total_salary}")
+        print("End of Statement\n")
+
+
+class Employee:
+    def __init__(self, name, age, pay, bonus, experience, start_year, place, performance_rating):
+        self.name = name
+        self.age = age
+        self.experience = experience  # years of experience
+        self.start_year = start_year  # year when the employee started working
+        self.place = place  # location of the employee
+        self.performance_rating = performance_rating  # performance rating (1 to 5)
+        # Create an instance of Salary class
+        self.obj_Salary = Salary(pay, bonus)
+
+    @property
+    def total_salary(self):
+        return self.obj_Salary.annual_salary()
+
+    @property
+    def performance_description(self):
+        # Map performance rating to description
+        if self.performance_rating == 5:
+            return "Excellent"
+        elif self.performance_rating == 4:
+            return "Good"
+        elif self.performance_rating == 3:
+            return "Average"
+        elif self.performance_rating == 2:
+            return "Below Average"
+        else:
+            return "Poor"
+
+
+# Create a list of employee instances with performance rating added
+employees = [
+    Employee('Max', 27, 20000, 17000, 5, 2018, 'New York', 4),
+    Employee('Varun', 25, 30000, 16000, 3, 2021, 'Los Angeles', 5),
+    Employee('Samueal', 29, 25000, 13000, 7, 2016, 'Chicago', 3),
+    Employee('Wilson', 26, 27000, 15000, 4, 2019, 'San Francisco', 4),
+    Employee('Sara', 30, 29000, 11000, 8, 2015, 'Boston', 5),
+    Employee('Tom', 29, 28000, 12000, 6, 2017, 'Dallas', 4),
+    Employee('Sam', 28, 40000, 20000, 9, 2014, 'Miami', 5)
+]
+
+# Print the total salary, experience, start year, place, and performance for each employee
+for emp in employees:
+    print(f"{emp.name}'s total salary: {emp.total_salary}, Experience: {emp.experience} years, "
+          f"Started in {emp.start_year} at {emp.place}, Performance Rating: {emp.performance_rating}/5 - {emp.performance_description}")
+
+# Generate Bank Statements for all employees
+for emp in employees:
+    bank_statement = BankStatement(emp)
+    bank_statement.generate_statement()
+
+# Find the employee with the highest salary
+highest_salary_employee = max(employees, key=lambda emp: emp.total_salary)
+print(
+    f"\nHighest salary is earned by {highest_salary_employee.name} with a total salary of {highest_salary_employee.total_salary} "
+    f"and experience of {highest_salary_employee.experience} years, started in {highest_salary_employee.start_year} at {highest_salary_employee.place} "
+    f"with a performance rating of {highest_salary_employee.performance_rating}/5 - {highest_salary_employee.performance_description}")

@@ -1,0 +1,55 @@
+import ssl
+
+data_dir = "data"
+os.makedirs(data_dir, exist_ok=True)
+
+urls_and_paths = {
+    "https://raw.githubusercontent.com/saiadityaus1/SparkCore1/master/test.txt": os.path.join(data_dir, "test.txt"),
+}
+
+# Create an unverified SSL context
+ssl_context = ssl._create_unverified_context()
+
+for url, path in urls_and_paths.items():
+    # Use the unverified context with urlopen
+    with urllib.request.urlopen(url, context=ssl_context) as response, open(path, 'wb') as out_file:
+        data = response.read()
+        out_file.write(data)
+
+# ======================================================================================
+
+from pyspark import (SparkConf,SparkContext)
+from pyspark.sql import SparkSession
+import sys
+
+python_path = sys.executable
+os.environ['PYSPARK_PYTHON'] = python_path
+os.environ['JAVA_HOME'] = r'C:\Users\user\.jdks\corretto-1.8.0_422'
+
+conf = SparkConf().setAppName("pyspark").setMaster("local[*]").set("spark.driver.host","localhost").set("spark.default.parallelism", "1")
+sc = SparkContext(conf=conf)
+
+spark = SparkSession.builder.getOrCreate()
+
+spark.read.format("csv").load("data/test.txt").toDF("Success").show(20, False)
+
+###################################################################
+print()
+print("======Raw str list======")
+print()
+
+rawstr=("zeybron","zeyot","analyticszeyo")
+print(rawstr)
+print()
+print("======Rdd raw str======")
+print()
+rddstr=sc.parallelize(rawstr)
+print(rddstr.collect())
+print()
+print()
+
+print("======Remove zeyo sr======")
+print()
+repstr=rddstr.map(lambda x: x.replace("zeyo",""))
+print(repstr.collect())
+

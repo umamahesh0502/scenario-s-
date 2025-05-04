@@ -1,0 +1,52 @@
+sai aditya  to  Everyone 15:52
+https://tinyurl.com/yc7ec85r
+
+sai aditya 16:13
+Data set download link
+
+
+https://tinyurl.com/yc7ec85r
+
+
+
+
+
+todys code
+
+
+
+print()
+print("===== RAW LIST======")
+rawlist = [  "State->TN~City->Chennai"    ,    "State->Kerala~City->Trivandrum"]
+print(rawlist)
+
+print()
+print("===== RDD LIST======")
+
+rddlist = sc.parallelize(rawlist)
+print(rddlist.collect())
+
+print()
+print("===== flat RDD LIST======")
+
+flat= rddlist.flatMap(lambda x : x.split("~"))
+print(flat.collect())
+
+print()
+print("===== state rdd list======")
+state = flat.filter(lambda x : 'State' in x)
+print(state.collect())
+
+print()
+print("===== state replace======")
+staterep = state.map(lambda  x : x.replace("State->",""))
+print(staterep.collect())
+
+print()
+print("===== City rdd list======")
+city = flat.filter(lambda x : 'City' in x )
+print(city.collect())
+
+print("===== City replace list======")
+cityrep = city.map(lambda  x : x.replace("City->",""))
+print(cityrep.collect())

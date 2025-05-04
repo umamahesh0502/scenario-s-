@@ -1,0 +1,26 @@
+
+rdd1 = spark.sparkContext.parallelize([
+    ("sai", 10),
+    ("zeyo", 20),
+    ("sai", 15),
+    ("zeyo", 10 ),
+    ("sai", 10 ),
+],1)
+
+df = rdd1.toDF(['name', 'amt']).coalesce(1)
+
+df.show()
+
+from pyspark.sql.functions import  *
+
+
+aggdf = df.groupby("name").agg(
+
+                        sum("amt").alias("total"),
+                        count("name").alias("cnt"),
+                        collect_list("amt").alias("col_collect_list"),
+                        collect_set("amt").alias("col_collect_set")
+
+)
+
+aggdf.show()

@@ -1,0 +1,52 @@
+selcting two cloumns
+
+csvdf = spark.read.format("csv").load("dt.txt").toDF("txnno","txndate","amount","category","product","spendby")
+csvdf.(show)
+procdf=csvdf.select("txndate","product")
+procdf.show()
+
+select function
+
+seldf=csvdf.select("txndate","product")
+
+seldf.show()
+
+drop functionality
+
+
+dropdf=csvdf.drop("txndate","product")
+dropdf.show()
+++++++++++++++++++
+filter
+print()
+print(++++ category = 'EXCERSISE'+++++++++++    )
+
+onefil=csvdf.filter("  category='Excercise'")
+onefil.show()
+
+print()
+print(++++ category = 'EXCERSISE' and spendby=cash+++++++++++    )
+
+multicolumn filter operator is and
+
+=csvdf.filter("  category='Excercise' and spendby='cash'")
+mulfilter.show()
+
+
+print()
+print(++++ category = 'EXCERSISE' and spendby=cash+++++++++++    )
+
+
+
+multicolumn filter operator is or
+mulfilteror=csvdf.filter("  category='Excercise' or spendby='cash'  ")
+mulfilteror.show()
+
+multivaluefilter opertor is in
+
+
+print()
+print(++++ category = 'EXCERSISE','gymnastics'  +++++++++++    )
+
+infil=csvdf.filter("  category in('Excercise','gymnastics')")
+infil.show()

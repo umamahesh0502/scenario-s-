@@ -1,0 +1,86 @@
+class Employee:
+    PERFORMANCE_MAP = {5: "Excellent", 4: "Good", 3: "Average", 2: "Below Average", 1: "Poor"}
+
+    def __init__(self, name, age, salary, experience, post, qualification, joining_year, place, performance_rating):
+        self.name = name
+        self.age = age
+        self.salary = salary
+        self.experience = experience
+        self.post = post
+        self.qualification = qualification
+        self.joining_year = joining_year
+        self.place = place
+        self.performance_rating = performance_rating  # Rating between 1 and 5
+
+    @property
+    def performance_description(self):
+        return self.PERFORMANCE_MAP.get(self.performance_rating, "Unknown")
+
+    @property
+    def working_rate(self):
+        """
+        Working rate based on performance:
+        - Excellent (5): 100%
+        - Good (4): 90%
+        - Average (3): 75%
+        - Below Average (2): 60%
+        - Poor (1): 50%
+        """
+        rates = {5: 100, 4: 90, 3: 75, 2: 60, 1: 50}
+        return rates.get(self.performance_rating, 0)
+
+    def display_details(self):
+        return (f"Name: {self.name}, Age: {self.age}, Salary: ${self.salary}, "
+                f"Experience: {self.experience} years, Post: {self.post}, "
+                f"Qualification: {self.qualification}, Joining Year: {self.joining_year}, "
+                f"Place: {self.place}, Performance: {self.performance_rating}/5 - {self.performance_description}, "
+                f"Working Rate: {self.working_rate}%")
+
+
+class EmployeeBankStatement:
+    def __init__(self, employee):
+        self.employee = employee
+        self.account_number = f"AC{self.employee.name[:2].upper()}{self.employee.age}{self.employee.experience * 10}"  # Generate account number
+        self.monthly_deposit = self.employee.salary // 12  # Monthly salary deposit
+        self.deposits = []  # To track all deposits
+        self.balance = 0  # Total balance in the bank
+
+    def generate_monthly_deposits(self):
+        """Generate deposits for 12 months."""
+        for _ in range(12):
+            self.deposits.append(self.monthly_deposit)
+        self.balance = sum(self.deposits)  # Calculate total balance
+
+    def display_statement(self):
+        """Display the employee's bank statement."""
+        print(f"\nBank Statement for {self.employee.name} (Account: {self.account_number})")
+        print(f"Employee: {self.employee.name}, Age: {self.employee.age}, Place: {self.employee.place}")
+        print(f"Post: {self.employee.post}, Qualification: {self.employee.qualification}")
+        print(f"Performance: {self.employee.performance_rating}/5 - {self.employee.performance_description}")
+        print("Monthly Deposits:")
+        for month, deposit in enumerate(self.deposits, 1):
+            print(f"Month {month}: ${deposit}")
+        print(f"Total Annual Balance: ${self.balance}")
+        print("End of Statement")
+
+
+# List of 10 employees
+employees = [
+    Employee("John Doe", 35, 85000, 10, "Manager", "MBA", 2014, "New York", 4),
+    Employee("Alice Smith", 32, 78000, 10, "Senior Engineer", "B.Tech", 2014, "Los Angeles", 5),
+    Employee("Bob Johnson", 37, 95000, 10, "Director", "MBA", 2014, "Chicago", 3),
+    Employee("Clara White", 30, 65000, 10, "Team Lead", "M.Sc", 2014, "San Francisco", 2),
+    Employee("Derek Green", 36, 87000, 10, "Project Manager", "M.Tech", 2014, "Boston", 5),
+    Employee("Emma Brown", 33, 72000, 10, "HR Specialist", "BBA", 2014, "Miami", 3),
+    Employee("Frank Davis", 38, 90000, 10, "Senior Consultant", "MBA", 2014, "Dallas", 4),
+    Employee("Grace Lee", 34, 76000, 10, "Product Manager", "MCA", 2014, "Seattle", 5),
+    Employee("Henry Moore", 31, 70000, 10, "Data Analyst", "B.Sc", 2014, "Atlanta", 2),
+    Employee("Isabella Scott", 29, 62000, 10, "Software Developer", "B.Tech", 2014, "Houston", 3),
+]
+
+# Generate and display bank statements for all employees
+print("Employee Bank Statements:\n")
+for employee in employees:
+    statement = EmployeeBankStatement(employee)
+    statement.generate_monthly_deposits()
+    statement.display_statement()
