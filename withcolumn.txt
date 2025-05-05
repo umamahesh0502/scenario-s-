@@ -1,6 +1,3 @@
-Full withColumn Code
-
-
 
 data = [
     ("00000000", "06-26-2011", 200, "Exercise", "GymnasticsPro", "cash"),
